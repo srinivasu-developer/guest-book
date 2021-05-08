@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>GuestBook - HomePage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div class="col-md-6 mx-auto text-center">
+        <h1 class="wv-heading--title">
+            Post an entry!
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-5 mx-auto myform form">
+            <form method="post" role="form" class="form-horizontal credit-card-div" id="form" th:action="@{/new-entry}"
+                  th:object="${newEntry}" enctype="multipart/form-data">
+                <fieldset>
+                    <div class="form-outline mb-4">
+                        <input class="form-control my-input" id="name" type="text" th:field="*{name}"
+                               th:errorclass="is-invalid"
+                               required="required" placeholder="Name"/>
+                        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">Please provide a name.</div>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <textarea th:field="*{text}" id="text" th:errorclass="is-invalid" class="form-control my-input"
+                                  placeholder="Text" rows="6"></textarea>
+                        <div th:if="${#fields.hasErrors('text')}" class="invalid-feedback">Please provide a text.</div>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="file" name="photo" accept="image/png, image/jpeg" />
+                    </div>
+                    <div class="text-center ">
+                        <button type="submit" class="btn btn-block send-button">Submit</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

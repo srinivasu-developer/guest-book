@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entries</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div id="entries" class="mx-auto container-fluid text-center">
+    <table class="table table-striped table-primary">
+        <thead class="ttop">
+        <tr class="table-info">
+            <td width="20px"><b> ID</b></td>
+            <td><b>NAME</b></td>
+            <td><b>Text</b></td>
+            <td><b>Image</b></td>
+            <td><b>Approved?</b></td>
+            <td><b>Operation</b></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="entry, iStat : ${entries}" th:style="${iStat.odd}? 'font-weight: normal;'">
+
+            <td width="20px" th:text="${entry.id}">
+            </td>
+            <td th:text="${entry.name}">
+            </td>
+            <td th:text="${entry.text}">
+            </td>
+            <td><img th:src="|@{${entry.photosImagePath}}|" alt="No Image" class="my-image"/>
+            </td>
+            <td th:text="${entry.isApproved}">
+            </td>
+            <td class="row justify-content-md-center">
+                <form th:action="@{/entries/delete/{id}(id=${entry.id})}"
+                      th:attr="data-entry-id=${entry.id}" th:object="${form}" th:method="post">
+                    <input type="hidden" name="id" th:value="${entry.id}">
+                    <button type="submit" class="btn btn-danger btn-sm col-xs-2 margin-left mr-1">Delete</button>
+                </form>
+                <form th:if="${!entry.isApproved}" th:action="@{/entries/approve/{id}(id=${entry.id})}"
+                      th:attr="data-entry-id=${entry.id}" th:method="post" th:object="${form}">
+                    <input type="hidden" name="id" th:value="${entry.id}">
+                    <button type="submit" class="btn btn-success btn-sm col-xs-2 margin-left">Approve</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
